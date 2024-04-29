@@ -2,32 +2,35 @@ import image from "../assets/icon-arrow.svg";
 import { useState } from "react";
 
 export default function HomePage() {
-  const [day, setDay] = useState();
+  const [day, setDay] = useState(); 
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
   const [dayBirth, setDayBirth] = useState("--");
   const [mesBirth, setMesBirth] = useState("--");
   const [anoBirth, setAnoBirth] = useState("--");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); 
   const [error2, setError2] = useState("");
   const [error3, setError3] = useState("");
 
-  const txtColor = document.getElementById("labelDay");
+  // Cor do texto e borda
+  const txtColor = document.getElementById("labelDay"); 
   const txtColor2 = document.getElementById("labelMonth");
   const txtColor3 = document.getElementById("labelYear");
-
   const border = document.getElementById("day");
   const border2 = document.getElementById("month");
   const border3 = document.getElementById("year");
 
+
+  // Data atual para calcular a idade
   const anoAtual = new Date().getFullYear();
   const mesAtual = new Date().getMonth();
+  const mesAtualSoma = mesAtual + 1;
   const diaAtual = new Date().getDate();
 
-  const handleDay = (e) => {
-    setDay(parseInt(e.target.value, 10));
+  const handleDay = (e) => { // Função para pegar o valor do input 
+    setDay(parseInt(e.target.value, 10)); // Converte o valor do input para inteiro
     if (e.target.value > 31 || e.target.value === 0) {
-      setDay(31);
+      setDay(31); 
     } else if (e.target.value < 0) {
       setDay(0);
     } else if (e.target.value <= 0) {
@@ -38,8 +41,8 @@ export default function HomePage() {
       setError("");
     }
   };
-  const handleMonth = (e) => {
-    setMonth(parseInt(e.target.value, 10));
+  const handleMonth = (e) => { // Função para pegar o valor do input
+    setMonth(parseInt(e.target.value, 10)); // Converte o valor do input para inteiro
     if (e.target.value > 12) {
       setMonth(12);
     } else if (e.target.value < 0) {
@@ -52,8 +55,8 @@ export default function HomePage() {
       setError2("");
     }
   };
-  const handleYear = (e) => {
-    setYear(parseInt(e.target.value, 10));
+  const handleYear = (e) => { // Função para pegar o valor do input
+    setYear(parseInt(e.target.value, 10)); // Converte o valor do input para inteiro
     if (e.target.value > 2024) {
       setYear(2024);
     } else if (e.target.value < 0) {
@@ -67,7 +70,7 @@ export default function HomePage() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = () => { // Função para calcular a idade 
     const txtColor = document.getElementById("labelDay");
     const txtColor2 = document.getElementById("labelMonth");
     const txtColor3 = document.getElementById("labelYear");
@@ -75,15 +78,15 @@ export default function HomePage() {
     const border2 = document.getElementById("month");
     const border3 = document.getElementById("year");
 
-    setDayBirth(diaAtual - day);
-    setMesBirth(month - -mesAtual);
+    setDayBirth(diaAtual - day); // Calcula a idade
+    setMesBirth(month - -mesAtualSoma); 
     setAnoBirth(anoAtual - year);
 
-    let dayBirth = diaAtual - day;
+    let dayBirth = diaAtual - day; 
     let anoBirth = anoAtual - year;
-    let mesBirth = month - -mesAtual;
+    let mesBirth = month - -mesAtualSoma;
 
-    if (isNaN(day)) {
+    if (isNaN(day)) { // Verifica se o valor é NaN 
       setDayBirth("--"); //se o valor for NaN, ele retorna "--"
       if (!day) {
         border.style.border = "2px solid red";
@@ -113,7 +116,7 @@ export default function HomePage() {
 
     console.log(
       anoAtual,
-      mesAtual,
+      mesAtualSoma,
       diaAtual,
       "||",
       dayBirth,
