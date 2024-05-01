@@ -135,13 +135,11 @@ export default function HomePage() {
     
 
     console.log(
-      /* anoAtual,
-      mesAtualSoma,
-      diaAtual, */
+      `${day}-${month}-${year}`,
       "||",
-      dayBirth,
-      mesBirth,
-      anoBirth
+      dayBirth + " days",
+      mesBirth + " months",
+      anoBirth + " years"
     );
   };
 
