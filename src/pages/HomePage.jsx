@@ -2,35 +2,35 @@ import image from "../assets/icon-arrow.svg";
 import { useState } from "react";
 
 export default function HomePage() {
-  const [day, setDay] = useState(); 
+  const [day, setDay] = useState();
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
   const [dayBirth, setDayBirth] = useState("--");
   const [mesBirth, setMesBirth] = useState("--");
   const [anoBirth, setAnoBirth] = useState("--");
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
   const [error2, setError2] = useState("");
   const [error3, setError3] = useState("");
 
   // Cor do texto e borda
-  const txtColor = document.getElementById("labelDay"); 
+  const txtColor = document.getElementById("labelDay");
   const txtColor2 = document.getElementById("labelMonth");
   const txtColor3 = document.getElementById("labelYear");
   const border = document.getElementById("day");
   const border2 = document.getElementById("month");
   const border3 = document.getElementById("year");
 
-
   // Data atual para calcular a idade
-  const anoAtual = new Date().getFullYear();
+  /* const anoAtual = new Date().getFullYear();
   const mesAtual = new Date().getMonth();
   const mesAtualSoma = mesAtual + 1;
-  const diaAtual = new Date().getDate();
+  const diaAtual = new Date().getDate(); */
 
-  const handleDay = (e) => { // Função para pegar o valor do input 
+  const handleDay = (e) => {
+    // Função para pegar o valor do input
     setDay(parseInt(e.target.value, 10)); // Converte o valor do input para inteiro
     if (e.target.value > 31 || e.target.value === 0) {
-      setDay(31); 
+      setDay(31);
     } else if (e.target.value < 0) {
       setDay(0);
     } else if (e.target.value <= 0) {
@@ -41,7 +41,8 @@ export default function HomePage() {
       setError("");
     }
   };
-  const handleMonth = (e) => { // Função para pegar o valor do input
+  const handleMonth = (e) => {
+    // Função para pegar o valor do input
     setMonth(parseInt(e.target.value, 10)); // Converte o valor do input para inteiro
     if (e.target.value > 12) {
       setMonth(12);
@@ -55,7 +56,8 @@ export default function HomePage() {
       setError2("");
     }
   };
-  const handleYear = (e) => { // Função para pegar o valor do input
+  const handleYear = (e) => {
+    // Função para pegar o valor do input
     setYear(parseInt(e.target.value, 10)); // Converte o valor do input para inteiro
     if (e.target.value > 2024) {
       setYear(2024);
@@ -70,7 +72,8 @@ export default function HomePage() {
     }
   };
 
-  const handleSubmit = () => { // Função para calcular a idade 
+  const handleSubmit = () => {
+    // Função para calcular a idade
     const txtColor = document.getElementById("labelDay");
     const txtColor2 = document.getElementById("labelMonth");
     const txtColor3 = document.getElementById("labelYear");
@@ -78,17 +81,29 @@ export default function HomePage() {
     const border2 = document.getElementById("month");
     const border3 = document.getElementById("year");
 
-    setDayBirth(diaAtual - day); // Calcula a idade
-    setMesBirth(month - -mesAtualSoma); 
-    setAnoBirth(anoAtual - year);
+    
 
-    let dayBirth = diaAtual - day; 
-    let anoBirth = anoAtual - year;
-    let mesBirth = month - -mesAtualSoma;
+    const currentDate = new Date(); // Pega a data atual
+    const birthDate = new Date(`${day}-${month}-${year}`); // Converte a data de nascimento para o formato de data do JS
 
-    if (isNaN(day)) { // Verifica se o valor é NaN 
+    const yearsDiff = currentDate.getFullYear() - birthDate.getFullYear(); // Calcula a diferença de anos
+    const monthsDiff = currentDate.getMonth() - birthDate.getMonth();
+    const daysDiff = currentDate.getDate() - birthDate.getDate(); 
+
+    if (monthsDiff < 0 || (monthsDiff === 0 && daysDiff < 0)) { // Verifica se o mês é menor que 0 ou se o mês é igual a 0 e o dia é menor que 0
+      setAnoBirth(yearsDiff - 1); // Diminui 1 ano
+      setMesBirth(12 + monthsDiff); // Soma 12 meses
+      setDayBirth(currentDate.getDate() + daysDiff); // Soma a quantidade de dias
+    } else { 
+      setAnoBirth(yearsDiff);
+      setMesBirth(monthsDiff);
+      setDayBirth(daysDiff);
+    }
+
+    if (isNaN(day)) {
+      // Verifica se o valor é NaN
       setDayBirth("--"); //se o valor for NaN, ele retorna "--"
-      if (!day) {
+      if (!day) { // Se o valor for vazio
         border.style.border = "2px solid red";
         txtColor.style.color = "red";
         setError("This field is required");
@@ -97,27 +112,32 @@ export default function HomePage() {
       }
     }
 
-    if (isNaN(mesBirth)) {
+    if (isNaN(month)) {
       setMesBirth("--");
       if (!month) {
         txtColor2.style.color = "red";
         border2.style.border = "2px solid red";
         setError2("This field is required");
+      } else if (month != 0) {
+        setError("");
       }
     }
-    if (isNaN(anoBirth)) {
+    if (isNaN(year)) {
       setAnoBirth("--");
       if (!year) {
         txtColor3.style.color = "red";
         border3.style.border = "2px solid red";
         setError3("This field is required");
+      } else if (year != 0) {
+        setError("");
       }
     }
+    
 
     console.log(
-      anoAtual,
+      /* anoAtual,
       mesAtualSoma,
-      diaAtual,
+      diaAtual, */
       "||",
       dayBirth,
       mesBirth,
