@@ -1,13 +1,14 @@
 import image from "../assets/icon-arrow.svg";
 import { useState } from "react";
+import AnimatedNumber from "react-animated-numbers";
 
 export default function HomePage() {
   const [day, setDay] = useState();
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
-  const [dayBirth, setDayBirth] = useState("--");
-  const [mesBirth, setMesBirth] = useState("--");
-  const [anoBirth, setAnoBirth] = useState("--");
+  const [dayBirth, setDayBirth] = useState(0);
+  const [mesBirth, setMesBirth] = useState(0);
+  const [anoBirth, setAnoBirth] = useState(0);
   const [error, setError] = useState("");
   const [error2, setError2] = useState("");
   const [error3, setError3] = useState("");
@@ -81,20 +82,19 @@ export default function HomePage() {
     const border2 = document.getElementById("month");
     const border3 = document.getElementById("year");
 
-    
-
     const currentDate = new Date(); // Pega a data atual
     const birthDate = new Date(`${day}-${month}-${year}`); // Converte a data de nascimento para o formato de data do JS
 
     const yearsDiff = currentDate.getFullYear() - birthDate.getFullYear(); // Calcula a diferença de anos
     const monthsDiff = currentDate.getMonth() - birthDate.getMonth();
-    const daysDiff = currentDate.getDate() - birthDate.getDate(); 
+    const daysDiff = currentDate.getDate() - birthDate.getDate();
 
-    if (monthsDiff < 0 || (monthsDiff === 0 && daysDiff < 0)) { // Verifica se o mês é menor que 0 ou se o mês é igual a 0 e o dia é menor que 0
+    if (monthsDiff < 0 || (monthsDiff === 0 && daysDiff < 0)) {
+      // Verifica se o mês é menor que 0 ou se o mês é igual a 0 e o dia é menor que 0
       setAnoBirth(yearsDiff - 1); // Diminui 1 ano
       setMesBirth(12 + monthsDiff); // Soma 12 meses
       setDayBirth(currentDate.getDate() + daysDiff); // Soma a quantidade de dias
-    } else { 
+    } else {
       setAnoBirth(yearsDiff);
       setMesBirth(monthsDiff);
       setDayBirth(daysDiff);
@@ -102,8 +102,9 @@ export default function HomePage() {
 
     if (isNaN(day)) {
       // Verifica se o valor é NaN
-      setDayBirth("--"); //se o valor for NaN, ele retorna "--"
-      if (!day) { // Se o valor for vazio
+      setDayBirth(0); //se o valor for NaN, ele retorna "--"
+      if (!day) {
+        // Se o valor for vazio
         border.style.border = "2px solid red";
         txtColor.style.color = "red";
         setError("This field is required");
@@ -113,7 +114,7 @@ export default function HomePage() {
     }
 
     if (isNaN(month)) {
-      setMesBirth("--");
+      setMesBirth(0);
       if (!month) {
         txtColor2.style.color = "red";
         border2.style.border = "2px solid red";
@@ -123,7 +124,7 @@ export default function HomePage() {
       }
     }
     if (isNaN(year)) {
-      setAnoBirth("--");
+      setAnoBirth(0);
       if (!year) {
         txtColor3.style.color = "red";
         border3.style.border = "2px solid red";
@@ -132,7 +133,6 @@ export default function HomePage() {
         setError("");
       }
     }
-    
 
     console.log(
       `${day}-${month}-${year}`,
@@ -220,24 +220,48 @@ export default function HomePage() {
       </div>
       <div className="flex flex-col mb-12 mt-10 gap-2">
         <div className="flex gap-1 items-center">
-          <label htmlFor="" className="text-Purple font_b italic text-5xl">
-            {anoBirth}
+          <label htmlFor="" className="text-Purple font_b italic text-5xl w-14">
+            <AnimatedNumber
+              fontStyle={{  fontSize: 40 }}
+              animateToNumber={anoBirth}
+              includeComma
+              config={{ tension: 89, friction: 40 }}
+              onStart={() => console.log("onStart")}
+              onFinish={() => console.log("onFinish")}
+              animationType={"calm"}
+            />
           </label>
-          <label htmlFor="" className="text-Off_black font_b italic text-4xl">
+          <label htmlFor="" className="text-Off_black font_b italic text-4xl ">
             years
           </label>
         </div>
         <div className="flex gap-1 items-center">
-          <label htmlFor="" className="text-Purple font_b italic text-5xl">
-            {mesBirth}
+          <label htmlFor="" className="text-Purple font_b italic text-5xl w-14">
+          <AnimatedNumber
+              fontStyle={{  fontSize: 40 }}
+              animateToNumber={mesBirth}
+              includeComma
+              config={{ tension: 89, friction: 40 }}
+              onStart={() => console.log("onStart")}
+              onFinish={() => console.log("onFinish")}
+              animationType={"calm"}
+            />
           </label>
           <label htmlFor="" className="text-Off_black font_b italic text-4xl">
             months
           </label>
         </div>
         <div className="flex gap-1 items-center">
-          <label htmlFor="" className="text-Purple font_b italic text-5xl">
-            {dayBirth}
+          <label htmlFor="" className="text-Purple font_b italic text-5xl w-14">
+          <AnimatedNumber
+              fontStyle={{  fontSize: 40 }}
+              animateToNumber={dayBirth}
+              includeComma
+              config={{ tension: 89, friction: 40 }}
+              onStart={() => console.log("onStart")}
+              onFinish={() => console.log("onFinish")}
+              animationType={"calm"}
+            />
           </label>
           <label htmlFor="" className="text-Off_black font_b italic text-4xl">
             days
